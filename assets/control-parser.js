@@ -92,40 +92,6 @@
       }
     }
 
-    match = atom.match(/^(LS|RS) rotate path (.+)$/);
-    if (match) {
-      const directions = parseDirections(match[2]);
-      const angles = directions.map((direction) => directionAngles[direction]);
-      if (angles.length > 1 && angles.every((angle) => angle !== undefined)) {
-        const sweeps = mergeAdjacentSweeps(
-          angles.slice(1).map((angle, index) => signedShortestSweep(angles[index], angle))
-        );
-        return [{
-          type: "stickMotion",
-          stick: match[1],
-          action: sweeps.length === 1 ? "arc" : "compoundArc",
-          directions: [],
-          startAngle: angles[0],
-          ...(sweeps.length === 1 ? { sweepAngle: sweeps[0] } : { sweeps })
-        }];
-      }
-    }
-
-    match = atom.match(/^(LS|RS) rotate (90|180|270|360) (cw|ccw)(?: from (.+))?$/);
-    if (match) {
-      const amount = Number(match[2]);
-      const direction = match[3] === "cw" ? 1 : -1;
-      const startDirection = match[4] ? parseDirections(match[4])[0] : "up";
-      return [{
-        type: "stickMotion",
-        stick: match[1],
-        action: amount === 360 ? "circle" : "arc",
-        directions: [],
-        startAngle: directionAngles[startDirection] ?? -90,
-        sweepAngle: amount * direction
-      }];
-    }
-
     match = atom.match(/^(LS|RS) rotate any$/);
     if (match) {
       return [{
@@ -137,6 +103,26 @@
         sweepAngle: 360,
         label: "любое направление"
       }];
+    }
+
+    match = atom.match(/^(LS|RS) rotate (.+)$/);
+    if (match) {
+      const directions = parseDirections(match[2]);
+      const angles = directions.map((direction) => directionAngles[direction]);
+      if (angles.length > 1 && angles.every((angle) => angle !== undefined)) {
+        const sweeps = mergeAdjacentSweeps(
+          angles.slice(1).map((angle, index) => signedShortestSweep(angles[index], angle))
+        );
+        const isCircle = sweeps.length === 1 && Math.abs(sweeps[0]) === 360;
+        return [{
+          type: "stickMotion",
+          stick: match[1],
+          action: isCircle ? "circle" : sweeps.length === 1 ? "arc" : "compoundArc",
+          directions: [],
+          startAngle: angles[0],
+          ...(sweeps.length === 1 ? { sweepAngle: sweeps[0] } : { sweeps })
+        }];
+      }
     }
 
     warnings.push(`Не удалось разобрать действие: ${atom}`);
