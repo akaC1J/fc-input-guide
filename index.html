@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0b0f14">
+    <title>FC Input Guide</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="topbar__main">
+          <button class="brand" type="button" data-action="home" aria-label="Вернуться к выбору раздела">
+            <span class="brand__mark">FC</span>
+            <span>
+              <span class="brand__title">FC Input Guide</span>
+              <span class="brand__context" data-current-context>Быстрая шпаргалка</span>
+            </span>
+          </button>
+
+          <label class="game-picker" for="gameSelect">
+            <span class="sr-only">Выбор игры</span>
+            <select id="gameSelect" data-game-select></select>
+          </label>
+        </div>
+
+        <nav class="section-tabs" aria-label="Основные разделы">
+          <button class="section-tabs__item" type="button" data-section="skills">Финты</button>
+          <button class="section-tabs__item" type="button" data-section="controls">Основы управления</button>
+        </nav>
+      </header>
+
+      <main class="workspace">
+        <section class="quick-start" data-quick-start>
+          <div>
+            <p class="eyebrow">Личная база управления</p>
+            <h1>FC Input Guide</h1>
+          </div>
+          <div class="quick-start__actions">
+            <button class="mode-card" type="button" data-section="skills">
+              <span class="mode-card__title">Финты</span>
+              <span class="mode-card__meta">Skill moves по звездам</span>
+            </button>
+            <button class="mode-card" type="button" data-section="controls">
+              <span class="mode-card__title">Основы управления</span>
+              <span class="mode-card__meta">Атака, защита, стандарты</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="cheatsheet" data-cheatsheet hidden>
+          <div class="toolbar">
+            <div class="toolbar__title">
+              <p class="eyebrow" data-section-label></p>
+              <h2 data-category-title></h2>
+            </div>
+            <label class="search">
+              <span class="sr-only">Поиск</span>
+              <input type="search" placeholder="Поиск приема или действия" data-search>
+            </label>
+          </div>
+
+          <nav class="category-rail" aria-label="Категории" data-category-tabs></nav>
+          <div class="cards-grid" data-cards></div>
+          <p class="empty-state" data-empty-state hidden>Ничего не найдено.</p>
+        </section>
+      </main>
+    </div>
+
+    <script src="data/fc26/skills.js"></script>
+    <script src="data/fc26/controls.js"></script>
+    <script src="data/games.js"></script>
+    <script src="assets/control-parser.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
