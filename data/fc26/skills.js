@@ -39,9 +39,9 @@
         move("Финт вправо и уход влево", "RS rotate → ↓ ←"),
         move("Проброс пяткой влево во время бега", "hold LT + tap X then tap Y + LS hold ← / hold LT + tap B then tap Y + LS hold ←"),
         move("Проброс пяткой вправо во время бега", "hold LT + tap X then tap Y + LS hold → / hold LT + tap B then tap Y + LS hold →"),
-        move("Финт влево и "выход" вправо", "RS rotate ← ↓ →"),
-        move("Финт вправо и "выход" влево", "RS rotate → ↓ ←"),
-        move("Финт с заминкой", "hold LT + RS flick ← → / hold LT + RS flick → ←")
+        move("Финт влево и «выход» вправо", "RS rotate ← ↓ →"),
+        move("Финт вправо и «выход» влево", "RS rotate → ↓ ←"),
+        move("Финт с заминкой", "hold LT + RS flick ← → / hold LT + RS flick → ←"),
         move("Взрывное переступание", "hold LB + RS rotate ↑ ← + LS direction / hold LB + RS rotate ↑ → + LS direction", "Explosive Stepover. Выполняется из положения стоя или во время лёгкого бега; LS задаёт направление выхода.")
       ]
     },
@@ -99,7 +99,7 @@
         move("Эластико справа", "hold LT + hold RB  + RS flick ← ↓ →"),
         move("Проброс с разворотом", "hold LT + hold RB + RS flick ↑ →"),
         move("Переброс", "RS hold ↑"),
-        move("Разворот Торнадо", "hold LT + hold RB + RS flick ↑ ←,
+        move("Разворот Торнадо", "hold LT + hold RB + RS flick ↑ ← / hold LT + hold RB + RS flick ↑ →"),
         move("Ложная игра пяткой", "hold LT + RS flick ← → / hold LT + RS flick → ←"),
         move("Зрелищная радуга", "hold LT + RS flick ↑ ↓"),
         move("Вариация эластико", "hold LT + RS rotate → ↓ ← / hold LT + RS rotate ← ↓ →", "Elastico Variation. Выполняется во время лёгкого бега.")
