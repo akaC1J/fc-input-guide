@@ -44,7 +44,7 @@
         {
           id: "1-star",
           title: "1 звезда",
-          minSkillRating: 1,
+          defaultSkillRating: 1,
           items: [
             {
               title: "Ball Roll",
@@ -85,6 +85,13 @@ move("Прокатывание мяча вправо", "RS hold →", null, true
 
 Вкладка появляется автоматически и показывает отмеченные финты из всех категорий
 со звездами. Рейтинг исходной категории сохраняется на карточке.
+
+Если отдельному финту нужно назначить другой рейтинг, укажите его пятым аргументом
+`changeStarRatingTo`:
+
+```js
+move("Ramp Flick Up", "RS press", "while standing", false, 4)
+```
 
 Финты хранятся в компактном поле `input`. Формат описывает Xbox / PC Controller;
 `assets/control-parser.js` преобразует строку в визуальные токены:

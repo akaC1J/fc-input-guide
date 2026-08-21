@@ -41,6 +41,7 @@
     { id: "left", title: "запад" },
     { id: "up-left", title: "северо-запад" }
   ];
+  const BASE_ATTACK_DIRECTION = "right";
   const iconPaths = {
     A: "assets/icons/a-filled-green.svg",
     B: "assets/icons/b-filled red.svg",
@@ -67,7 +68,7 @@
     sectionId: localStorage.getItem(storageKeys.section) || "",
     categoryId: "",
     query: "",
-    attackDirection: localStorage.getItem(storageKeys.attackDirection) || "up"
+    attackDirection: localStorage.getItem(storageKeys.attackDirection) || BASE_ATTACK_DIRECTION
   };
 
   if (!games.some((game) => game.id === state.gameId)) {
@@ -75,7 +76,7 @@
   }
 
   if (!attackDirections.some((direction) => direction.id === state.attackDirection)) {
-    state.attackDirection = "up";
+    state.attackDirection = BASE_ATTACK_DIRECTION;
   }
 
   const els = {
@@ -106,7 +107,7 @@
 
     const effectiveItems = section.categories.flatMap((category) => category.items
       .filter((item) => item.effective)
-      .map((item) => ({ ...item, skillRating: category.minSkillRating })));
+      .map((item) => ({ ...item, skillRating: category.defaultSkillRating })));
 
     return [...section.categories, { id: "effective", title: "Эффективные финты", items: effectiveItems }];
   }
@@ -132,14 +133,17 @@
     if (direction === "any") return direction;
     const currentIndex = attackDirections.findIndex((item) => item.id === direction);
     if (currentIndex < 0) return direction;
-    return attackDirections[(currentIndex + rotationSteps) % attackDirections.length].id;
+    const normalizedIndex = (currentIndex + rotationSteps) % attackDirections.length;
+    return attackDirections[(normalizedIndex + attackDirections.length) % attackDirections.length].id;
   }
 
   function orientStickMotion(token) {
-    if (state.sectionId !== "skills" || state.attackDirection === "up") return token;
+    if (state.sectionId !== "skills" || state.attackDirection === BASE_ATTACK_DIRECTION) return token;
     if (token.action === "circle") return token;
 
-    const rotationSteps = attackDirections.findIndex((direction) => direction.id === state.attackDirection);
+    const baseIndex = attackDirections.findIndex((direction) => direction.id === BASE_ATTACK_DIRECTION);
+    const attackIndex = attackDirections.findIndex((direction) => direction.id === state.attackDirection);
+    const rotationSteps = attackIndex - baseIndex;
     const rotationAngle = rotationSteps * 45;
     const oriented = { ...token };
 
@@ -484,7 +488,7 @@
       card.append(marker);
     }
 
-    const skillRating = category.minSkillRating || item.skillRating;
+    const skillRating = item.changeStarRatingTo || item.skillRating || category.defaultSkillRating;
     if (skillRating) {
       meta.append(el("span", "rating", "★".repeat(skillRating)));
     }
@@ -540,26 +544,35 @@
 
   function renderCategoryTabs() {
     const section = currentSection();
+    const hasQuery = Boolean(state.query.trim());
     els.categoryTabs.replaceChildren();
 
     categoriesForSection(section).forEach((category) => {
       const button = el("button", "category-chip", category.title);
       button.type = "button";
       button.dataset.category = category.id;
-      button.classList.toggle("is-active", category.id === state.categoryId);
+      button.classList.toggle("is-active", !hasQuery && category.id === state.categoryId);
       els.categoryTabs.append(button);
     });
   }
 
   function renderCards() {
+    const section = currentSection();
     const category = currentCategory();
     const query = state.query.trim().toLowerCase();
-    const items = (category?.items || []).filter((item) => {
-      return !query || [item.title, item.input, item.note].filter(Boolean).join(" ").toLowerCase().includes(query);
-    });
+    const sourceCategories = query ? categoriesForSection(section) : category ? [category] : [];
+    const items = sourceCategories.flatMap((sourceCategory) => sourceCategory.items
+      .filter((item) => !query || [item.title, item.input, item.note]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(query))
+      .map((item) => ({ item, category: sourceCategory })));
 
     els.cards.replaceChildren();
-    items.forEach((item) => els.cards.append(createCard(item, category)));
+    items.forEach(({ item, category: sourceCategory }) => {
+      els.cards.append(createCard(item, sourceCategory));
+    });
     els.empty.hidden = items.length > 0;
   }
 
@@ -642,6 +655,7 @@
 
   els.search.addEventListener("input", (event) => {
     state.query = event.target.value;
+    renderCategoryTabs();
     renderCards();
   });
 

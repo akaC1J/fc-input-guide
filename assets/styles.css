@@ -406,6 +406,16 @@ h2 {
   gap: 6px;
 }
 
+.move-card .combo {
+  justify-content: center;
+}
+
+@media (min-width: 680px) {
+  .move-card .combo {
+    flex-wrap: nowrap;
+  }
+}
+
 .combo-token {
   display: inline-grid;
   min-width: 34px;
