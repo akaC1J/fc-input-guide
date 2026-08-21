@@ -63,6 +63,20 @@
           </div>
 
           <nav class="category-rail" aria-label="Категории" data-category-tabs></nav>
+          <div class="attack-direction" role="group" aria-labelledby="attackDirectionLabel" data-attack-direction hidden>
+            <span class="attack-direction__label" id="attackDirectionLabel">Направление футболиста</span>
+            <div class="attack-direction__compass">
+              <button class="attack-direction__button" type="button" data-attack-heading="up-left" title="Атака на северо-запад" aria-label="Атака на северо-запад">↖</button>
+              <button class="attack-direction__button" type="button" data-attack-heading="up" title="Атака на север" aria-label="Атака на север">↑</button>
+              <button class="attack-direction__button" type="button" data-attack-heading="up-right" title="Атака на северо-восток" aria-label="Атака на северо-восток">↗</button>
+              <button class="attack-direction__button" type="button" data-attack-heading="left" title="Атака на запад" aria-label="Атака на запад">←</button>
+              <span class="attack-direction__player" aria-hidden="true"></span>
+              <button class="attack-direction__button" type="button" data-attack-heading="right" title="Атака на восток" aria-label="Атака на восток">→</button>
+              <button class="attack-direction__button" type="button" data-attack-heading="down-left" title="Атака на юго-запад" aria-label="Атака на юго-запад">↙</button>
+              <button class="attack-direction__button" type="button" data-attack-heading="down" title="Атака на юг" aria-label="Атака на юг">↓</button>
+              <button class="attack-direction__button" type="button" data-attack-heading="down-right" title="Атака на юго-восток" aria-label="Атака на юго-восток">↘</button>
+            </div>
+          </div>
           <div class="cards-grid" data-cards></div>
           <p class="empty-state" data-empty-state hidden>Ничего не найдено.</p>
         </section>
