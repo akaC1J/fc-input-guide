@@ -1,11 +1,16 @@
 (function () {
-  const move = (title, input, note) => ({ title, input, ...(note ? { note } : {}) });
+  const move = (title, input, note, effective = false) => ({
+    title,
+    input,
+    ...(note ? { note } : {}),
+    ...(effective ? { effective: true } : {})
+  });
 
   const categories = [
     {
       id: "1-star", title: "1 звезда", minSkillRating: 1,
       items: [
-        move("Направленный проброс мяча", "hold LB + hold RB + RS direction"),
+        move("Направленный проброс мяча", "hold LB + hold RB + RS direction", null, true),
         move("Жонглирование мячом на месте", "hold LT + tap RB"),
         move("Ложный удар с уходом влево", "hold LB + tap X then tap A + LS hold ↖ / hold LB + tap B then tap A + LS hold ↖"),
         move("Ложный удар с уходом вправо", "hold LB + tap X then tap A + LS hold ↗ / hold LB + tap B then tap A + LS hold ↗"),

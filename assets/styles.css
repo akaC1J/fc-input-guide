@@ -357,6 +357,7 @@ h2 {
 }
 
 .move-card {
+  position: relative;
   display: grid;
   gap: 8px;
   min-width: 0;
@@ -366,8 +367,19 @@ h2 {
   background: rgba(17, 24, 32, 0.88);
 }
 
+.effective-marker {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: #c084fc;
+  font-size: 1.15rem;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(192, 132, 252, 0.45);
+}
+
 .move-card__title {
   margin-bottom: 0;
+  padding-right: 28px;
   font-size: 1rem;
   font-weight: 850;
   line-height: 1.25;

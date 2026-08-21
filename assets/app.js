@@ -101,9 +101,20 @@
     return game?.sections[state.sectionId];
   }
 
+  function categoriesForSection(section) {
+    if (!section || state.sectionId !== "skills") return section?.categories || [];
+
+    const effectiveItems = section.categories.flatMap((category) => category.items
+      .filter((item) => item.effective)
+      .map((item) => ({ ...item, skillRating: category.minSkillRating })));
+
+    return [...section.categories, { id: "effective", title: "Эффективные финты", items: effectiveItems }];
+  }
+
   function currentCategory() {
     const section = currentSection();
-    return section?.categories.find((category) => category.id === state.categoryId) || section?.categories[0];
+    const categories = categoriesForSection(section);
+    return categories.find((category) => category.id === state.categoryId) || categories[0];
   }
 
   function saveState() {
@@ -153,7 +164,7 @@
     const saved = localStorage.getItem(storageKeys.category);
     const [, savedSection, savedCategory] = saved?.split(":") || [];
     const shouldRestore = saved?.startsWith(`${state.gameId}:`) && savedSection === state.sectionId;
-    state.categoryId = shouldRestore && section?.categories.some((category) => category.id === savedCategory)
+    state.categoryId = shouldRestore && categoriesForSection(section).some((category) => category.id === savedCategory)
       ? savedCategory
       : section?.categories[0]?.id || "";
   }
@@ -466,8 +477,16 @@
     const title = el("h3", "move-card__title", item.title);
     const meta = el("div", "move-card__meta");
 
-    if (category.minSkillRating) {
-      meta.append(el("span", "rating", "★".repeat(category.minSkillRating)));
+    if (item.effective) {
+      const marker = el("span", "effective-marker", "♥");
+      marker.setAttribute("aria-label", "Эффективный финт");
+      marker.title = "Эффективный финт";
+      card.append(marker);
+    }
+
+    const skillRating = category.minSkillRating || item.skillRating;
+    if (skillRating) {
+      meta.append(el("span", "rating", "★".repeat(skillRating)));
     }
 
     card.append(title, item.input ? createComboVariants(item.input) : createCombo(item.combo || []));
@@ -523,7 +542,7 @@
     const section = currentSection();
     els.categoryTabs.replaceChildren();
 
-    section.categories.forEach((category) => {
+    categoriesForSection(section).forEach((category) => {
       const button = el("button", "category-chip", category.title);
       button.type = "button";
       button.dataset.category = category.id;
