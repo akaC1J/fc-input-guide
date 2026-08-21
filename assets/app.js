@@ -2,7 +2,8 @@
   const storageKeys = {
     game: "fc-input-guide:last-game",
     section: "fc-input-guide:last-section",
-    category: "fc-input-guide:last-category"
+    category: "fc-input-guide:last-category",
+    attackDirection: "fc-input-guide:attack-direction"
   };
 
   const games = window.EA_FC_GAMES || [];
@@ -30,6 +31,16 @@
     "up-left": "↖",
     any: "любое"
   };
+  const attackDirections = [
+    { id: "up", title: "север" },
+    { id: "up-right", title: "северо-восток" },
+    { id: "right", title: "восток" },
+    { id: "down-right", title: "юго-восток" },
+    { id: "down", title: "юг" },
+    { id: "down-left", title: "юго-запад" },
+    { id: "left", title: "запад" },
+    { id: "up-left", title: "северо-запад" }
+  ];
   const iconPaths = {
     A: "assets/icons/a-filled-green.svg",
     B: "assets/icons/b-filled red.svg",
@@ -55,11 +66,16 @@
     gameId: localStorage.getItem(storageKeys.game) || games[0]?.id,
     sectionId: localStorage.getItem(storageKeys.section) || "",
     categoryId: "",
-    query: ""
+    query: "",
+    attackDirection: localStorage.getItem(storageKeys.attackDirection) || "up"
   };
 
   if (!games.some((game) => game.id === state.gameId)) {
     state.gameId = games[0]?.id;
+  }
+
+  if (!attackDirections.some((direction) => direction.id === state.attackDirection)) {
+    state.attackDirection = "up";
   }
 
   const els = {
@@ -72,7 +88,8 @@
     categoryTabs: document.querySelector("[data-category-tabs]"),
     cards: document.querySelector("[data-cards]"),
     empty: document.querySelector("[data-empty-state]"),
-    search: document.querySelector("[data-search]")
+    search: document.querySelector("[data-search]"),
+    attackDirection: document.querySelector("[data-attack-direction]")
   };
 
   function currentGame() {
@@ -91,12 +108,44 @@
 
   function saveState() {
     localStorage.setItem(storageKeys.game, state.gameId);
+    localStorage.setItem(storageKeys.attackDirection, state.attackDirection);
     if (state.sectionId) {
       localStorage.setItem(storageKeys.section, state.sectionId);
     }
     if (state.categoryId) {
       localStorage.setItem(storageKeys.category, `${state.gameId}:${state.sectionId}:${state.categoryId}`);
     }
+  }
+
+  function rotateDirection(direction, rotationSteps) {
+    if (direction === "any") return direction;
+    const currentIndex = attackDirections.findIndex((item) => item.id === direction);
+    if (currentIndex < 0) return direction;
+    return attackDirections[(currentIndex + rotationSteps) % attackDirections.length].id;
+  }
+
+  function orientStickMotion(token) {
+    if (state.sectionId !== "skills" || state.attackDirection === "up") return token;
+    if (token.action === "circle") return token;
+
+    const rotationSteps = attackDirections.findIndex((direction) => direction.id === state.attackDirection);
+    const rotationAngle = rotationSteps * 45;
+    const oriented = { ...token };
+
+    if (token.directions) {
+      oriented.directions = token.directions.map((direction) => rotateDirection(direction, rotationSteps));
+    }
+    if (token.steps) {
+      oriented.steps = token.steps.map((step) => ({
+        ...step,
+        direction: rotateDirection(step.direction, rotationSteps)
+      }));
+    }
+    if (typeof token.startAngle === "number") {
+      oriented.startAngle = token.startAngle + rotationAngle;
+    }
+
+    return oriented;
   }
 
   function restoreCategory() {
@@ -119,7 +168,7 @@
     }
 
     if (token.type === "stickMotion") {
-      return createStickMotion(token);
+      return createStickMotion(orientStickMotion(token));
     }
 
     const node = el("span", `combo-token combo-token--${token.type}`);
@@ -458,6 +507,18 @@
     });
   }
 
+  function renderAttackDirection() {
+    const isVisible = state.sectionId === "skills";
+    els.attackDirection.hidden = !isVisible;
+    if (!isVisible) return;
+
+    els.attackDirection.querySelectorAll("[data-attack-heading]").forEach((button) => {
+      const isActive = button.dataset.attackHeading === state.attackDirection;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-pressed", String(isActive));
+    });
+  }
+
   function renderCategoryTabs() {
     const section = currentSection();
     els.categoryTabs.replaceChildren();
@@ -490,6 +551,7 @@
 
     renderGameOptions();
     renderSectionTabs();
+    renderAttackDirection();
 
     els.context.textContent = state.sectionId
       ? `${game.title} · ${section.title} · ${category?.title || ""}`
@@ -528,6 +590,15 @@
       state.categoryId = categoryButton.dataset.category;
       saveState();
       render();
+      return;
+    }
+
+    const directionButton = event.target.closest("[data-attack-heading]");
+    if (directionButton) {
+      state.attackDirection = directionButton.dataset.attackHeading;
+      saveState();
+      renderAttackDirection();
+      renderCards();
       return;
     }
 
