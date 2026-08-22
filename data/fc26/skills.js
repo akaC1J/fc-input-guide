@@ -1,123 +1,162 @@
 (function () {
-  const move = (title, input, note) => ({ title, input, ...(note ? { note } : {}) });
-
+  const move = (title, input, note = "", effective = false, changeSkillRatingTo = 0) => ({
+    title,
+    input,
+    ...(note ? { note } : {}),
+    ...(effective ? { effective: true } : {}),
+    ...(changeSkillRatingTo ? { changeStarRatingTo: changeSkillRatingTo } : {})
+  });
+  //   ↑ → ↓ ← ↑ → ↓ ↑ ← ↓ → ↑
   const categories = [
     {
-      id: "1-star", title: "1 звезда", minSkillRating: 1,
+      id: "1-star", title: "1 звезда", defaultSkillRating: 1,
       items: [
-        move("Направленный проброс мяча", "hold LB + hold RB + RS direction"),
-        move("Жонглирование мячом на месте", "hold LT + tap RB"),
-        move("Ложный удар с уходом влево", "hold LB + tap X then tap A + LS hold ↖ / hold LB + tap B then tap A + LS hold ↖"),
-        move("Ложный удар с уходом вправо", "hold LB + tap X then tap A + LS hold ↗ / hold LB + tap B then tap A + LS hold ↗"),
-        move("Подброс мяча", "RS press"),
-        move("Финт с разворотом в касание", "hold LB + hold RB + LS flick ↓"),
-        move("Радуга Trickster", "RS flick ↓ ↑", "New Trickster Rainbow. Выполняется из положения стоя или во время лёгкого бега.")
+        move("Ball Juggling", "hold LT + tap RB", "standing"),
+        move("Body Feint", "RS flick ↓ / RS flick ↑"),
+        move("Ball Roll", "RS hold ↓ / RS hold ↑"),
+        move("Fake Shot", "tap B then tap A + LS direction / Fake Shot + LS direction"),
+        move("Scoop Flick", "RS press"),
+        move("Directional Nutmeg", "hold LB + hold RB + RS direction"),
       ]
     },
     {
-      id: "2-star", title: "2 звезды", minSkillRating: 2,
+      id: "2-star", title: "2 звезды", defaultSkillRating: 2,
       items: [
-        move("Финт вперёд и поворот", "RS flick ↓ ↓"),
-        move("Финт корпусом вправо", "RS flick →"),
-        move("Финт корпусом влево", "RS flick ←"),
-        move("Переступание через мяч вправо", "RS rotate ↑ →"),
-        move("Переступание через мяч влево", "RS rotate ↑ ←"),
-        move("Обратное переступание через мяч вправо", "RS rotate → ↑"),
-        move("Обратное переступание через мяч влево", "RS rotate ← ↑"),
-        move("Прокатывание мяча влево", "RS hold ←"),
-        move("Прокатывание мяча вправо", "RS hold →"),
-        move("Откат мяча", "hold LT + hold RT + LS flick ↓")
+        move("Step Over", "RS rotate → ↑ / RS rotate → ↓", ),
+        move("Reverse Step Over", "RS rotate ↑ →  / RS rotate ↓ → "),
+        move("Big Feint", "hold LT + RS flick ↓ / hold LT + RS flick ↑", "control exit direction with LS"),
+        move("Body Feint Exit", "RS flick ↓ then LS direction / RS flick ↑ then LS direction"),
+        move("Scissors Feint", "RS rotate → ↑ then LS direction / RS rotate → ↓ then LS direction"),
+        move("Step Over Feint", "RS rotate ↑ → then LS direction / RS rotate ↓ → then LS direction"),
+        move("Drag Back", "tap RB + tap LB + LS flick ← then LS direction"),
+        move("Quick Ball Rolls", "RS hold ←"),
+        move("Feint Forward & Turn", "RS flick ← ←"),
+        move("Stop & Go", "hold LT + RS flick ← →", "control exit direction with LS"),
+      ]
+    },
+    {   //   ↑ → ↓ ← ↑ → ↓ ↑ ← ↓ → ↑ ↖  ↗  ↘  ↙
+      id: "3-star", title: "3 звезды", defaultSkillRating: 3,
+      items: [
+        move("Heel Flick", "RS flick → ←"),
+        move("Heel To Heel Variation", "hold LT + LS flick → + Fake Shot"),
+        move("Roulette", "RS rotate ← ↓ → / RS rotate ← ↑ →"),
+        move("Fake & Exit", "RS rotate ↓ ← ↑ / RS rotate ↑ ← ↓"),
+        move("Lateral Heel to Heel", "hold RB + RS flick ↓ ↑ / hold RB + RS rotate ↑ ↓"),
+        move("Heel Chop", "hold LT + LS hold ↓ / hold LT + LS hold ↑ / hold LT + LS hold ↖ / hold LT + LS hold ↗ / hold LT + LS hold ↘ / hold LT + LS hold ↙"),
+        move("Explosive Step Over", "hold LB + RS rotate ← ↑ / hold LB + RS rotate → ↑"),
+        move("Berba Spin", "RS rotate → ↓ / RS rotate → ↑")
+      ]
+    },
+    { //   ↑ → ↓ ← ↑ → ↓ ↑ ← ↓ → ↑ ↖  ↗  ↘  ↙
+      id: "4-star", title: "4 звезды", defaultSkillRating: 4,
+      items: [
+        move("Ball Hop", "hold LB + RS press", "standing"),
+        move("Feint & Exit", "RS rotate ↓ ← ↑ / RS rotate ↑ ← ↓", "while running at speed"),
+        move("Heel To Heel Flick", "RS flick → ←"),
+        move("Simple Rainbow", " RS flick ← →"),
+        move("Skilled Bridge", "hold LT + RS flick → ←"),
+        move("Heel To Ball Roll", "hold LB + RS flick → ←", "control exit direction with LS"),
+        move("Advanced Heel Flick", "RS flick → ← + LS hold ↗ / RS flick → ← + LS hold ↘ / RS flick → ← + LS hold →"),
+        move("Skilled Roulette", "RS rotate ← ↓ → / RS rotate ← ↑ →"),
+        move("Flair Roulette", "hold LB + RS rotate ← ↓ → / hold LB + RS rotate ← ↑ →"),
+        move("Spin", "hold LT + hold RB + RS rotate ← ↓ → / hold LT + hold RB + RS rotate ← ↑ →"),
+        move("1 Foot Spin", "hold LT + RS flick → ↓ / hold LT +  RS flick → ↑"),
+        move("3 Touch Roulette", "hold LT + RS flick ← ↓ / hold LT + RS flick ← ↑"),
+        move("4 Touch Spin", "hold LT + RS flick ← ←"),
+        move("La Croqueta", "hold LB + RS hold ↓ / hold LB + RS hold ↑"),
+        move("In & Out", "hold LT + RS hold ↓ / hold LT + RS hold ↑"),
+        move("Drag to Heel", "hold LB + RS flick ← ↓ / hold LB + RS flick ← ↑"),
+        move("Drag Turn", "RS flick ← ↓ / RS flick ← ↑"),
+        move("Ball Roll Drag", "RS flick ← ↓ / RS flick ← ↑","while running at speed"),
+        move("Step Over Ball", "hold LB + RS flick → ↓ / hold LB + RS flick ← ↑"),
+        move("Scoop Turn", "LS hold ← + Fake Shot / LS hold ↑ + Fake Shot / LS hold ↓ + Fake Shot", "while standing"),
+        move("Fake Pass", "hold RT + Fake Shot", "while standing"),
+        move("V Drag", "hold RT + Fake Shot + LS hold ↗ / hold RT + Fake Shot + LS hold ↘", "while standing"),
+        move("Drag To Chop", "hold LT + RS rotate ↓ ← ↑ / hold LT + RS rotate ↑ ← ↓", "while standing"),
+        move("Drag To Drag", "LS then hold LT + Fake Shot"),
+        move("Scoop Turn Fake", "Fake Shot then LS flick ↗ ↘", "LS in opposite direction, only two example in move from standing,"),
+        move("Heel Chop Trun", "hold LT + LS hold ↓ then hold LS backwards / hold LT + LS hold ↑ then hold LS backwards / hold LT + LS hold ↖ then hold LS backwards / hold LT + LS hold ↗ then hold LS backwards / hold LT + LS hold ↘ then hold LS backwards / hold LT + LS hold ↙ then hold LS backwards"),
+        move("Ball Roll Chop", "RS hold ↓ then RS flick ↑ / RS hold ↑ then RS flick ↓"),
+        move("Ball Roll Cut", "RS hold ↓ then LS flick ↑ / RS hold ↑ then LS flick ↓", "while standing. mb"),
+        move("Ball Roll Cut Turn", "hold LB + RS flick ← ←"),
+        move("Drag Back Turn", "hold LT + RS hold ←"),
+        move("Double Touch Spin", "RS flick ↓ + LS flick ↖ / RS flick ↑ + LS flick ↙", "while standing"),
+        move("Flair Nutmeg", "hold LB + hold RB + RS flick any direction")
+      ]
+
+    },
+    {
+      id: "5-star", title: "5 звезд", defaultSkillRating: 5,
+      items: [
+        move("Running Scoop Turn", "LS hold ↗ + Fake Shot / LS hold ↘ + Fake Shot"),
+        move("Heel Flick Turn", "hold RB + hold LT + RS flick → ←", "control exit direction with LS"),
+        move("Advanced Rainbow", " RS flick ← then RS hold → then RS flick →"),
+        move("Flair Rainbow", "hold LB + RS flick ← →"),
+        move("Elastico", "RS rotate ↓ ← ↑ + right footers / RS rotate ↑ ← ↓ + left footers"),
+        move("Reverse Elastico", "RS rotate ↓ ← ↑ + left footers / RS rotate ↑ ← ↓ + right footers"),
+        move("Elastico Variation", "hold LT + RS rotate ↓ ← ↑ / hold LT + RS rotate ↑ ← ↓"),
+        move("Hocus Pocus", "RS rotate ← ↑ then RS rotate ↑ ← ↓ + right footers / RS rotate ← ↓ then RS rotate ↓ ← ↑ + left footers"),
+        move("Triple Elastico", "RS rotate ← ↓ then RS rotate ↓ ← ↑ + right footers / RS rotate ← ↑ then RS rotate ↑ ← ↓ + left footers"),
+        move("Ronaldo Fenomeno", "RS hold ↑ then RS flick → / RS hold ↓ then RS flick →"),
+        move("Double Touch Exit", "RS rotate → ↓ + LS hold ↗ / RS rotate → ↑ + LS hold ↘", "while standing"),
+        move("Reverse Double Touch Exit", "RS rotate ↑ → + LS hold ↗ / RS rotate ↓ → + LS hold ↘", "while standing"),
+        move("Toe Drag Step Over", "hold LB + RS rotate ↑ ← ↓ / Hold LB + RS rotate ↓ ← ↑"),
+        move("Sombrero Flick", "RS flick → → ←"),
+        move("MCGeady Spin", "RS flick → ↑ / RS flick → ↓"),
+        move("Bolasie Flick", "hold RB + hold LT + RS flick → ↓"),
+        move("El Tornado", "hold RB + hold LT + RS flick → ↑"),
+        move("Heel Fake", "hold LB + hold LT + RS flick ↑ ↓ / hold LB + hold LT + RS flick ↓ ↑", "while standing"),
+        move("Ball Roll Fake", "RS hold ↑ + RS flick ↓ / RS hold ↓ + RS flick ↑"),
+        move("Ball Roll Sombrero", "RS hold ↑ then RS press / RS hold ↓ then RS press" ),
+        move("Drag Back Sombrero", "hold LB + hold RB + LS flick ← then RS press" ),
+        move("Rabona Fake", "hold LT + LS hold ← then Fake Shot" ),
+        move("Elastico Chop", "hold RB + hold LT + RS rotate ↓ ← ↑ / hold RB + hold LT + RS rotate ↑ ← ↓" ),
+        move("Alternate Elastico Chop", "hold RB + hold LT + RS flick ← ↓ / hold RB + hold LT + RS flick ← ↑" ),
+        move("Drag Back Fake", "hold RB + hold RB + LS rotate ← ↑ then LS rotate ↑ ← ↓ / hold RB + hold RB + LS rotate ← ↓ then LS rotate ↓ ← ↑" ),
+        move("Fancy Drag Back", "hold LT + LS hold ← + Fake Shot" ),
+        move("Waka Waka", "RS rotate ↑ → + LS hold ↓ / RS rotate ↓ ← + LS hold ↑" ),
+        move("Okocha Flick", "hold LB + RS hold →")
       ]
     },
     {
-      id: "3-star", title: "3 звезды", minSkillRating: 3,
+      id: "juggling", title: "Жонглирование", defaultSkillRating: 5,
       items: [
-        move("Проброс мяча пяткой", "RS flick ↑ ↓"),
-        move("Разворот на 360 градусов вправо", "RS rotate ↓ ← ↑ →"),
-        move("Разворот на 360 градусов влево", "RS rotate ↓ → ↑ ←"),
-        move("Финт влево и уход вправо", "RS rotate ← ↓ →"),
-        move("Финт вправо и уход влево", "RS rotate → ↓ ←"),
-        move("Проброс пяткой влево во время бега", "hold LT + tap X then tap A + LS hold ← / hold LT + tap B then tap A + LS hold ←"),
-        move("Проброс пяткой вправо во время бега", "hold LT + tap X then tap A + LS hold → / hold LT + tap B then tap A + LS hold →"),
-        move("Финт влево и «выход» вправо", "RS rotate ← ↓ →"),
-        move("Финт вправо и «выход» влево", "RS rotate → ↓ ←"),
-        move("Финт с заминкой", "hold LT + RS flick ← → / hold LT + RS flick → ←"),
-        move("Взрывное переступание", "hold LB + RS rotate ↑ ← + LS direction / hold LB + RS rotate ↑ → + LS direction", "Explosive Stepover. Выполняется из положения стоя или во время лёгкого бега; LS задаёт направление выхода.")
+        move("Ramp Flick Up", "RS press", "while standing", false, 4),
+        move("Malouda Flick", "hold LT + tap RB + tap RB"),
+        move("Laces Flick Up", "hold LT + RS press"),
+        move("Juggling Sombrero", "LS hold ←", "while juggling the ball"),
+        move("Arround The world", "RS rotate ← ↑ → ↓ ← / RS rotate ← ↓ → ↑ ←", "while juggling the ball"),
+        move("Hop The world", "LS press + RS rotate ← ↓ → ↑ ←", "while juggling the ball"),
+        move("T. Arround The world", "RS rotate ← ↓ → ↑ ← then RS flick →", "while juggling the ball"),
+        move("In Air Elastico", "RS flick ↓ ↑", "while juggling the ball"),
+        move("Reverse In Air Elastico", "RS flick ↑ ↓", "while juggling the ball"),
+        move("Juggling Rainbow", "RS flick ← → →", "while juggling the ball"),
+        move("Chest Flick", "hold LT + RS press then RS press"),
+        move("Reverse Toe Bounce", "RS hold ↑ / RS hold ↓", "while juggling the ball"),
+        move("Juggling Flick", "LS hold ↑ / LS hold ↓ / LS hold ←", "while juggling the ball", false, 1),
+        move("Flick Up For Volley", "LS towards the facing direction", "while juggling the ball", false, 1),
+
       ]
     },
     {
-      id: "4-star", title: "4 звезды", minSkillRating: 4,
-      items: [
-        move("Подбрасывание мяча (чеканкана месте)", "hold LB + RS press"),
-        move("Прокатывание мяча с откатом", "hold LB + RS flick ↑ ← / hold LB + RS flick ↑ →"),
-        move("Откат мяча с поворотом", "hold LT + RS hold ↓"),
-        move("Зрелищные пробросы между ног", "hold LB + hold RB + RS flick direction"),
-        move("С пятки на пятку", "RS flick ↑ ↓"),
-        move("Простая радуга", "RS flick ↓ ↑"),
-        move("Вращать влево", "hold RT + hold RB + RS rotate ↓ → ↑ ←"),
-        move("Вращение вправо", "hold RT + hold RB + RS rotate ↓ ← ↑ →"),
-        move("Остановка с разворотом влево(когда бег)", "RS flick ↑ ←"),
-        move("Остановка с разворотом вправо(когда бег)", "RS flick ↑ →"),
-        move("Прокатывание мяча с прерыванием вправо", "RS hold ← + LS hold →"),
-        move("Прокатывание мяча с прерыванием влево", "RS hold → + LS hold ←"),
-        move("Ложный пас (стоя на месте)", "hold RT + tap X then tap A / hold RT + tap B then tap A"),
-        move("Ложный пас и выход влево (стоя на месте)", "hold RT + tap X then tap A + LS hold ↖ / hold RT + tap B then tap A + LS hold ↖"),
-        move("Ложный пас и выход вправо (стоя на месте)", "hold RT + tap X then tap A + LS hold ↗ / hold RT + tap B then tap A + LS hold ↗"),
-        move("Быстрое прокатывание мяча", "RS hold ↓"),
-        move("Уход влево", "hold LB + RS hold ←"),
-        move("Уход вправо", "hold LB + RS hold →"),
-        move("Рзаворот влево на 360 градусов в три касания", "hold LT + RS flick ↓ ←"),
-        move("Разворот вправо на 360 градусов в три касания", "hold LT + RS flick ↓ →"),
-        move("Откат мяча с разворотом влево", "RS flick ↓ ←"),
-        move("Откат мяча с разворотом вправо", "RS flick ↓ →"),
-        move("Игра пяткой", "hold LB + RS flick ↓ ← / hold LB + RS flick ↓ →"),
-        move("Пяткой к прокатыванию мяча", "hold LB + RS flick ↑ ↓"),
-        move("Прокатывание мяча с прерыванием", "hold LB + RS flick ↓ ↓"),
-        move("Улучшенный проброс пяткой", "RS flick ↑ ↓ + LS hold ↖ / RS flick ↑ ↓ + LS hold ↗ / RS flick ↑ ↓ + LS hold ↑", "Advanced Heel Flick. Выполняется во время лёгкого бега."),
-        move("Откат с резким уходом", "hold LT + RS rotate ← ↓ → / hold LT + RS rotate → ↓ ←", "Drag To Chop. Выполняется из положения стоя.")
-      ]
+      id: "trikster-playstyle", title: "Trikster Playstyle", defaultSkillRating: 1,
+      items: []
     },
     {
-      id: "5-star", title: "5 звезд", minSkillRating: 5,
-      items: [
-        move("Эластико", "RS rotate → ↓ ←"),
-        move("Обратное эластико", "RS rotate ← ↓ →"),
-        move("Улучшенная радуга", "RS flick ↓ then RS hold ↑ then RS flick ↑"),
-        move("Фокус-покус", "RS rotate ↓ ← then RS rotate ← ↓ →"),
-        move("Тройное эластико", "RS rotate ↓ → then RS rotate → ↓ ←"),
-        move("Прокатывание и проброс влево(на бегу)", "RS hold ← then RS flick ↑"),
-        move("Прокатывание и проброс вправо(на бегу)", "RS hold → then RS flick ↑"),
-        move("Проброс мяча пяткой с поворотом", "hold LT + hold RB + RS flick ↑ ↓"),
-        move("Удар через себя(на месте)", "RS flick ↑ ↑ ↓"),
-        move("Поворот с разворотом влево", "RS flick ↑ ←"),
-        move("Поворот с разворотом вправо", "RS flick ↑ →"),
-        move("Ложный уход влево(на месте)", "RS hold ← then RS flick ←"),
-        move("Ложный уход вправо(на месте)", "RS hold → then RS flick →"),
-        move("Прокатывание мяча с ложным поворотом", "hold LT + RS flick ↑ ← / hold LT + RS flick ↑ →"),
-        move("Ложная рабона(на бегу)", "hold LT + tap X then tap A + LS hold ↓ / hold LT + tap B then tap A + LS hold ↓"),
-        move("Эластико слева", "hold LT + hold RB  + RS flick → ↓ ←"),
-        move("Эластико справа", "hold LT + hold RB  + RS flick ← ↓ →"),
-        move("Проброс с разворотом", "hold LT + hold RB + RS flick ↑ →"),
-        move("Переброс", "RS hold ↑"),
-        move("Разворот Торнадо", "hold LT + hold RB + RS flick ↑ ← / hold LT + hold RB + RS flick ↑ →"),
-        move("Ложная игра пяткой", "hold LT + RS flick ← → / hold LT + RS flick → ←"),
-        move("Зрелищная радуга", "hold LT + RS flick ↑ ↓"),
-        move("Вариация эластико", "hold LT + RS rotate → ↓ ← / hold LT + RS rotate ← ↓ →", "Elastico Variation. Выполняется во время лёгкого бега.")
-      ]
+      id: "trikster-plus", title: "Trikster+", defaultSkillRating: 1,
+      items: []
     },
     {
-      id: "juggling", title: "Жонглирование", minSkillRating: 5,
-      items: [
-        move("Удар через себя назад", "hold LT + hold RB + LS hold ↓"),
-        move("Удар через себя влево", "hold LT + hold RB + LS hold ←"),
-        move("Удар через себя вправо", "hold LT + hold RB + LS hold →"),
-        move("Вокруг света", "hold LT + RS rotate any"),
-        move("Воздушное эластико", "hold LT + RS flick → ←"),
-        move("Обратное воздушное эластико", "hold LT + RS flick ← →"),
-        move("Проброс под удар с лёта", "LS hold ↑"),
-        move("Подброс грудью", "hold LT + LS press then LS press"),
-        move("Дважды «Вокруг света»", "hold LT + RS rotate ↑ → ↓ ← ↑ then RS flick ↑")
-      ]
+      id: "fake-shot-variations", title: "Вариации ложного удара", defaultSkillRating: 1,
+      items: []
+    },
+    {
+      id: "first-touch-moves", title: "Приемы с первым касанием", defaultSkillRating: 1,
+      items: []
+    },
+    {
+      id: "uncategorized", title: "Без категории(изысканные приемы, рабона, и другие)", defaultSkillRating: 1,
+      items: []
     }
   ];
 
