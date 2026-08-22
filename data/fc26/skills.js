@@ -13,7 +13,7 @@
       items: [
         move("Ball Juggling", "hold LT + tap RB", "standing"),
         move("Body Feint", "RS flick ↓ / RS flick ↑"),
-        move("Ball Roll", "RS hold ↓ / RS hold ↑"),
+        move("Ball Roll", "RS hold ↓ / RS hold ↑", "", true),
         move("Fake Shot", "tap B then tap A + LS direction / Fake Shot + LS direction"),
         move("Scoop Flick", "RS press"),
         move("Directional Nutmeg", "hold LB + hold RB + RS direction"),
@@ -28,7 +28,7 @@
         move("Body Feint Exit", "RS flick ↓ then LS direction / RS flick ↑ then LS direction"),
         move("Scissors Feint", "RS rotate → ↑ then LS direction / RS rotate → ↓ then LS direction"),
         move("Step Over Feint", "RS rotate ↑ → then LS direction / RS rotate ↓ → then LS direction"),
-        move("Drag Back", "tap RB + tap LB + LS flick ← then LS direction"),
+        move("Drag Back", "tap RB + tap LB + LS flick ← then LS direction", "", true),
         move("Quick Ball Rolls", "RS hold ←"),
         move("Feint Forward & Turn", "RS flick ← ←"),
         move("Stop & Go", "hold LT + RS flick ← →", "control exit direction with LS"),
@@ -39,11 +39,11 @@
       items: [
         move("Heel Flick", "RS flick → ←"),
         move("Heel To Heel Variation", "hold LT + LS flick → + Fake Shot"),
-        move("Roulette", "RS rotate ← ↓ → / RS rotate ← ↑ →"),
+        move("Roulette", "RS rotate ← ↓ → / RS rotate ← ↑ →", "", true),
         move("Fake & Exit", "RS rotate ↓ ← ↑ / RS rotate ↑ ← ↓"),
         move("Lateral Heel to Heel", "hold RB + RS flick ↓ ↑ / hold RB + RS rotate ↑ ↓"),
         move("Heel Chop", "hold LT + LS hold ↓ / hold LT + LS hold ↑ / hold LT + LS hold ↖ / hold LT + LS hold ↗ / hold LT + LS hold ↘ / hold LT + LS hold ↙"),
-        move("Explosive Step Over", "hold LB + RS rotate ← ↑ / hold LB + RS rotate → ↑"),
+        move("Explosive Step Over", "hold LB + RS rotate ← ↑ / hold LB + RS rotate → ↑", "", true),
         move("Berba Spin", "RS rotate → ↓ / RS rotate → ↑")
       ]
     },
@@ -55,7 +55,7 @@
         move("Heel To Heel Flick", "RS flick → ←"),
         move("Simple Rainbow", " RS flick ← →"),
         move("Skilled Bridge", "hold LT + RS flick → ←"),
-        move("Heel To Ball Roll", "hold LB + RS flick → ←", "control exit direction with LS"),
+        move("Heel To Ball Roll", "hold LB + RS flick → ←", "control exit direction with LS", true),
         move("Advanced Heel Flick", "RS flick → ← + LS hold ↗ / RS flick → ← + LS hold ↘ / RS flick → ← + LS hold →"),
         move("Skilled Roulette", "RS rotate ← ↓ → / RS rotate ← ↑ →"),
         move("Flair Roulette", "hold LB + RS rotate ← ↓ → / hold LB + RS rotate ← ↑ →"),
@@ -63,7 +63,7 @@
         move("1 Foot Spin", "hold LT + RS flick → ↓ / hold LT +  RS flick → ↑"),
         move("3 Touch Roulette", "hold LT + RS flick ← ↓ / hold LT + RS flick ← ↑"),
         move("4 Touch Spin", "hold LT + RS flick ← ←"),
-        move("La Croqueta", "hold LB + RS hold ↓ / hold LB + RS hold ↑"),
+        move("La Croqueta", "hold LB + RS hold ↓ / hold LB + RS hold ↑", "", true),
         move("In & Out", "hold LT + RS hold ↓ / hold LT + RS hold ↑"),
         move("Drag to Heel", "hold LB + RS flick ← ↓ / hold LB + RS flick ← ↑"),
         move("Drag Turn", "RS flick ← ↓ / RS flick ← ↑"),
@@ -81,7 +81,7 @@
         move("Ball Roll Cut Turn", "hold LB + RS flick ← ←"),
         move("Drag Back Turn", "hold LT + RS hold ←"),
         move("Double Touch Spin", "RS flick ↓ + LS flick ↖ / RS flick ↑ + LS flick ↙", "while standing"),
-        move("Flair Nutmeg", "hold LB + hold RB + RS flick any direction")
+        move("Flair Nutmeg", "hold LB + hold RB + RS flick any direction", "", true)
       ]
 
     },
@@ -92,8 +92,8 @@
         move("Heel Flick Turn", "hold RB + hold LT + RS flick → ←", "control exit direction with LS"),
         move("Advanced Rainbow", " RS flick ← then RS hold → then RS flick →"),
         move("Flair Rainbow", "hold LB + RS flick ← →"),
-        move("Elastico", "RS rotate ↓ ← ↑ + right footers / RS rotate ↑ ← ↓ + left footers"),
-        move("Reverse Elastico", "RS rotate ↓ ← ↑ + left footers / RS rotate ↑ ← ↓ + right footers"),
+        move("Elastico", "RS rotate ↓ ← ↑ + right footers / RS rotate ↑ ← ↓ + left footers", "", true),
+        move("Reverse Elastico", "RS rotate ↓ ← ↑ + left footers / RS rotate ↑ ← ↓ + right footers", "", true),
         move("Elastico Variation", "hold LT + RS rotate ↓ ← ↑ / hold LT + RS rotate ↑ ← ↓"),
         move("Hocus Pocus", "RS rotate ← ↑ then RS rotate ↑ ← ↓ + right footers / RS rotate ← ↓ then RS rotate ↓ ← ↑ + left footers"),
         move("Triple Elastico", "RS rotate ← ↓ then RS rotate ↓ ← ↑ + right footers / RS rotate ← ↑ then RS rotate ↑ ← ↓ + left footers"),
@@ -102,7 +102,7 @@
         move("Reverse Double Touch Exit", "RS rotate ↑ → + LS hold ↗ / RS rotate ↓ → + LS hold ↘", "while standing"),
         move("Toe Drag Step Over", "hold LB + RS rotate ↑ ← ↓ / Hold LB + RS rotate ↓ ← ↑"),
         move("Sombrero Flick", "RS flick → → ←"),
-        move("MCGeady Spin", "RS flick → ↑ / RS flick → ↓"),
+        move("MCGeady Spin", "RS flick → ↑ / RS flick → ↓", "", true),
         move("Bolasie Flick", "hold RB + hold LT + RS flick → ↓"),
         move("El Tornado", "hold RB + hold LT + RS flick → ↑"),
         move("Heel Fake", "hold LB + hold LT + RS flick ↑ ↓ / hold LB + hold LT + RS flick ↓ ↑", "while standing"),
