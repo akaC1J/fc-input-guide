@@ -140,23 +140,70 @@
     },
     {
       id: "trikster-playstyle", title: "Trikster Playstyle", defaultSkillRating: 1,
-      items: []
+      items: [
+        move("Trickster Fake Shot", "tap B then tap A + LS direction"),
+        move("Quick Ball Rolls", "RS hold →"),
+        move("Quick Step Overs", "hold LT + RS flick →"),
+        move("Quick Skills", "hold LT + hold RT + hold RB"),
+        move("Trickster Rainbow Flick", "RS flick ← then RS hold → then RS flick →"),
+        move("Okocha Flick", "RS press + LS hold →"),
+        move("Ball Chop Sombrero", "RS press + LS hold ↗ / RS press + LS hold ↘"),
+        move("Air Elastico Sombrero", "hold LT + RS flick → ← / hold LT + RS flick ← →")
+      ]
     },
     {
       id: "trikster-plus", title: "Trikster+", defaultSkillRating: 1,
-      items: []
+      items: [
+        move("Knee Header", "hold LT + hold RT + RS flick →"),
+        move("Catch A Spin", "hold LT + tap B then tap A"),
+        move("180 Sombrero", "hold LT + RS press + LS hold →"),
+        move("Knee Akka", "hold LT + RS press + LS hold ↑ / hold LT + RS press + LS hold ↓"),
+        move("Tornado Laces Flick", "hold LT + RS press + LS hold ↗ / hold LT + RS press + LS hold ↘"),
+        move("Thigh Catch Rainbow", "hold LT + RS press + LS hold →"),
+        move("Air Elastico Sombrero", "hold LT + RS flick → ← / hold LT + RS flick ← →"),
+        move("Laces Flick Double Touch", "hold LT + RS press + LS hold ↗ / hold LT + RS press + LS hold ↘"),
+        move("Akka 3000", "hold LT + RS press + LS hold ↖ / hold LT + RS press + LS hold ↙")
+      ]
     },
     {
       id: "fake-shot-variations", title: "Вариации ложного удара", defaultSkillRating: 1,
-      items: []
+      items: [
+        move("Fake Shot Stop", "LS + tap B then tap A", "после отпускания LS"),
+        move("Fake Shot Flick", "hold LT + tap B then tap A + LS hold ↗ / hold LT + tap B then tap A + LS hold ↘"),
+        move("Cruyff Turn", "tap B then tap A + LS hold ← / tap B then tap A + LS hold ↖ / tap B then tap A + LS hold ↙"),
+        move("Open Up Fake Shot", "hold RB + tap B then tap A + LS direction"),
+        move("Fake Shot Ball Roll", "tap B then tap A + LS hold → + RS hold ↓ / tap B then tap A + LS hold → + RS hold ↑")
+      ]
     },
     {
       id: "first-touch-moves", title: "Приемы с первым касанием", defaultSkillRating: 1,
-      items: []
+      items: [
+        move("Dummy", "hold RB"),
+        move("Dummy Burst", "hold RB + LS direction", "назад от игрока"),
+        move("First Touch Flick", "hold LB + hold RB + LS direction"),
+        move("First Time Flick", "RS hold any"),
+        move("First Time Flick Over", "RS hold any + LS direction", "назад от игрока"),
+        move("Antony Spin", "hold LB + hold RB", "5 звезд", false, 5)
+      ]
     },
     {
       id: "uncategorized", title: "Без категории(изысканные приемы, рабона, и другие)", defaultSkillRating: 1,
-      items: []
+      items: [
+        move("Rabona Cross", "hold LT + tap X", "нужен стиль игры Inventive"),
+        move("Rabona Chip", "hold LT + tap X", "нужен стиль игры Inventive"),
+        move("Fancy Shots", "hold LT + tap B", "нужен стиль игры Gamechanger"),
+        move("Fancy Chip Shot", "hold LB + hold LT + tap B", "нужен стиль игры Gamechanger"),
+        move("Fancy Pass", "hold LT + tap A", "нужен стиль игры Gamechanger"),
+        move("Fancy Flick Pass", "hold LT + tap X", "нужен стиль игры Gamechanger"),
+        move("Fancy Chip Volley", "hold LT + tap X", "нужен стиль игры Gamechanger"),
+        move("Strafe Dribbling", "hold RB + LS"),
+        move("Technical Dribbling", "hold RB + LS"),
+        move("Super Cancel", "hold LT + hold RT", "после приема"),
+        move("Shot Cancel", "hold LT + hold RT", "после приема"),
+        move("Flick Up", "RS press"),
+        move("Ball Flick", "RS flick any"),
+        move("Speed Boost", "RS press")
+      ]
     }
   ];
 
